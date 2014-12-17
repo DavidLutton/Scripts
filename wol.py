@@ -1,26 +1,27 @@
 #!/usr/bin/env python3
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 
 import socket
 import struct
 
+import sys
+from optparse import OptionParser
+
+
 def if_sep_remove(len_without,len_with,first_sep,data):
  if len(data) == len_without:
-  return(data)
+  pass
  elif len(data) == len_without + len_with:
-  data = data.replace(data[2],'')
+  data = data.replace(data[first_sep],'')
  else:
   raise ValueError('Incorrect data format')
  return(data)
-
-#macaddress=if_sep_remove(12,5,2,"00118566A6E0")
-#macaddress=if_sep_remove(12,5,2,"00-11-85-66-A6-E0")
-#print(macaddress)
+#macaddress=if_sep_remove(12,5,2,"001122334455")
+#macaddress=if_sep_remove(12,5,2,"00-11-22-33-44-55")
 
 def wake_on_lan(macaddress):
  """ Switches on remote computers using WOL. """
  macaddress=if_sep_remove(12,5,2,macaddress)
-
  # Pad the synchronization stream
  data = b'FFFFFFFFFFFF' + (macaddress * 20).encode()
  send_data = b''
@@ -32,6 +33,20 @@ def wake_on_lan(macaddress):
  sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
  sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
  sock.sendto(send_data, ('255.255.255.255',7))
+ print("Sent WOL to "+macaddress)
 
-wake_on_lan("001122334455")
+def main():
 
+ parser = OptionParser()
+# parser.add_option("-m", "--mac", dest="mac", help="write mac WOL packet", metavar="WOL")
+
+ (options, args) = parser.parse_args()
+ #print(options)
+# print(args)
+ for arg in args:
+#  print(arg)
+  wake_on_lan(arg)
+  
+
+if __name__ == "__main__":
+ main()
