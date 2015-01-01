@@ -9,7 +9,7 @@ do
  di=/dev/shm
  cd ${di}/
  dir=${di}/makemkv-${package}-${version}
- file=${dir}.tar.gz
+ file=makemkv-${package}-${version}.tar.gz
  if [ ! -e ${file} ]
  then
   wget http://www.makemkv.com/download/${file}
@@ -18,6 +18,6 @@ do
  cd ${dir}
  ./configure
  make
- sudo checkinstall make install
+ sudo checkinstall --pkgname makemkV_${package}
  rm -rfv ${dir}
 done
