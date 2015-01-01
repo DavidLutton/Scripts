@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-sudo apt-get install checkinstall build-essential libc6-dev libssl-dev libexpat1-dev libavcodec-dev libgl1-mesa-dev libqt4-dev
+sudo apt-get install libav-tools pkg-config checkinstall build-essential libc6-dev libssl-dev libexpat1-dev libavcodec-dev libgl1-mesa-dev libqt4-dev
 version=$( wget "http://www.makemkv.com/download/" -qO- | grep -m 1 "MakeMKV v" | sed -e "s/.*MakeMKV v//;s/ (.*//" )
 # Thanks to [mechevar](http://www.makemkv.com/forum2/memberlist.php?mode=viewprofile&u=5355) for sed`fo [here](http://www.makemkv.com/forum2/viewtopic.php?f=3&t=5266) [#](http://dl.dropbox.com/u/18055299/buildMakeMkv.sh)
 
@@ -18,6 +18,6 @@ do
  cd ${dir}
  ./configure
  make
- sudo checkinstall --pkgname makemkV_${package}
+ sudo checkinstall --pkgname makemkv_${package}
  rm -rfv ${dir}
 done
