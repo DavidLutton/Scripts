@@ -2,19 +2,18 @@
 #unset a i
 
 while IFS= read -r -d $'\0' FILE; do
-
- PROBE=$(  avprobe "$FILE" 2>&1  | grep Stream | cut -d" " -f 7 | sort -d | uniq  | cut -d":" -f1 | tr "\n" ' ' )
-
+ PROBE=$( avprobe "$FILE" -loglevel quiet -show_streams -of json | grep codec_type | cut -d'"' -f 4 | sort -d | uniq | tr "\n" " " )
  CONF=""
+
  case "$PROBE" in
 
-  "Audio Subtitle Video ")
+  "audio subtitle video ")
   CONF="$CONF -codec:v h264 -map 0:v"
   CONF="$CONF -codec:a copy -map 0:a:0"
   CONF="$CONF -codec:s copy -map 0:s"
   ;;
 
-  "Audio Video ")
+  "audio video ")
    CONF="$CONF -codec:v h264 -map 0:v"
    CONF="$CONF -codec:a copy -map 0:a:0"
   ;;
@@ -26,8 +25,9 @@ while IFS= read -r -d $'\0' FILE; do
 
  esac
 
-
  avconv -i "$FILE" $CONF "$FILE.mkv"
+# STATE="100"
+ echo "$CONF"
 
  STATE="$?"
  echo "$STATE"
@@ -37,6 +37,5 @@ while IFS= read -r -d $'\0' FILE; do
   rm -v "$FILE.orig"
  fi
  read foo
-
 
 done < <(find . -name "*.mkv" -a ! -name "*.mkv.mkv"  -type f -print0)
