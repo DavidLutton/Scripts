@@ -1,12 +1,42 @@
 #!/bin/bash
+#unset a i
 
-RESULTS=$( find . -name "*.mkv" -a ! -name "*.mkv.mkv" )
+while IFS= read -r -d $'\0' FILE; do
 
-for FILE in $RESULTS
-do
- CONF="-codec:v h264 -codec:a copy -map 0:v -map 0:a:0"
- CONF_="-codec:s copy -map 0:s"
- nice -n 20 avconv -i $FILE $CONF $CONF_ $FILE.mkv && mv $FILE $FILE.orig && rm  $FILE.orig
- nice -n 20 avconv -i $FILE $CONF  $FILE.mkv && mv $FILE $FILE.orig && rm  $FILE.orig
+ PROBE=$(  avprobe "$FILE" 2>&1  | grep Stream | cut -d" " -f 7 | sort -d | uniq  | cut -d":" -f1 | tr "\n" ' ' )
 
-done
+ CONF=""
+ case "$PROBE" in
+
+  "Audio Subtitle Video ")
+  CONF="$CONF -codec:v h264 -map 0:v"
+  CONF="$CONF -codec:a copy -map 0:a:0"
+  CONF="$CONF -codec:s copy -map 0:s"
+  ;;
+
+  "Audio Video ")
+   CONF="$CONF -codec:v h264 -map 0:v"
+   CONF="$CONF -codec:a copy -map 0:a:0"
+  ;;
+
+  *)
+   echo "$PROBE"
+   exit
+  ;;
+
+ esac
+
+
+ avconv -i "$FILE" $CONF "$FILE.mkv"
+
+ STATE="$?"
+ echo "$STATE"
+ if [ "$STATE" = "0" ]
+ then
+  mv -v "$FILE" "$FILE.orig"
+  rm -v "$FILE.orig"
+ fi
+ read foo
+
+
+done < <(find . -name "*.mkv" -a ! -name "*.mkv.mkv"  -type f -print0)
