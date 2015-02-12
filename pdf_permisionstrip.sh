@@ -77,7 +77,7 @@ function pdfprint2(){
  rm "$2"
 }
 
-find . ! -name "*.??.pdf" -type f -name "*.pdf" ! -name "ts_136104v091300p.pdf" -print0 | while read -d $'\0' file; 
+find . ! -name "*.??.pdf" -type f -name "*.pdf" -print0 | while read -d $'\0' file; 
 do
  fullpath=$file  # pathfinder http://stackoverflow.com/a/1403489/3459491
  filename="${fullpath##*/}"                      # Strip longest match of */ from start
