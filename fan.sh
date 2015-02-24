@@ -10,11 +10,11 @@
 while sleep 1
 do
  echo 1 > /sys/devices/platform/applesmc.768/fan1_manual 
- SENSE=$( sensors coretemp-isa-0000 -u : grep temp1_input : awk '{ print $2 }' : cut -d. -f 1 )
+ SENSE=$( sensors coretemp-isa-0000 -u | grep temp1_input | awk '{ print $2 }' | cut -d. -f 1 )
 # echo $SENSE
  DEST=/sys/devices/platform/applesmc.768/fan1_output 
  case "$SENSE" in
- [0-9]:[1-5][0-9]) 
+ [0-9]|[1-5][0-9]) 
 #  echo ">=0<=59"
   echo 2000 > $DEST
  ;;
