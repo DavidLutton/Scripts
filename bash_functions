@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 function imap {
 	imapfilter
 
@@ -81,4 +82,8 @@ function rsync-push {
 	   rsync -av --progress /media/"$USER"/SSD/rsync/"$DEST"/ "$DIR"/ # "$@"
 	done
 
+}
+
+function yt-dl {
+	youtube-dl --output "%(uploader)s/%(upload_date)s-%(id)s-^-%(uploader)s-^-%(title)s.%(ext)s" --continue --write-description --write-info-json --write-thumbnail --ignore-errors --restrict-filenames "$@"
 }
