@@ -1,8 +1,18 @@
 #!/bin/bash
 
 function venv {
-	cd "$HOME"/ENV/pyvenv/"$1"/
-	source venv/bin/activate
+	if [ -z "$1" ]
+	then
+		venvs
+	else
+		if [ -e "$HOME/ENV/pyvenv/$1/venv/bin/activate" ]
+		then
+			cd "$HOME"/ENV/pyvenv/"$1"/
+			source venv/bin/activate
+		else
+			echo "$1 activate script not present"
+		fi
+	fi	
 	#python3 "$2" "${@:3}"
 	#deactivate
 	# [arrays - Remove first element from $@ in bash - Stack Overflow](http://stackoverflow.com/questions/2701400/remove-first-element-from-in-bash)
