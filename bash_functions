@@ -1,5 +1,15 @@
 #!/bin/bash
 
+function venv {
+	cd "$HOME"/ENV/pyvenv/"$1"/
+	source venv/bin/activate
+	#python3 "$2" "${@:3}"
+	#deactivate
+	# [arrays - Remove first element from $@ in bash - Stack Overflow](http://stackoverflow.com/questions/2701400/remove-first-element-from-in-bash)
+}
+function venvs {
+	find "$HOME"/ENV/pyvenv/. -maxdepth 1 -type d | grep "\./" | cut -d'/' -f7
+}
 
 function imap {
 	imapfilter
