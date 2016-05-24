@@ -7,8 +7,7 @@ function venv {
 	else
 		if [ -e "$HOME/ENV/pyvenv/$1/venv/bin/activate" ]
 		then
-			cd "$HOME"/ENV/pyvenv/"$1"/
-			source venv/bin/activate
+			source "$HOME"/ENV/pyvenv/"$1"/venv/bin/activate
 		else
 			echo "$1 activate script not present"
 		fi
