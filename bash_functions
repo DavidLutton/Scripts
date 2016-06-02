@@ -18,6 +18,7 @@ function venv {
 				mkdir -p "$HOME"/ENV/pyvenv/"$1"/
 				pyvenv "$HOME"/ENV/pyvenv/"$1"/venv
 				venv "$1"
+				pip install --upgrade pip
 				if [ -e "$HOME"/ENV/pyvenv/"$1"/requirements.txt ]
 				then
 					pip install --upgrade -r "$HOME"/ENV/pyvenv/"$1"/requirements.txt
