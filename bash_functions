@@ -8,6 +8,8 @@ function venv {
 		if [ -e "$HOME/ENV/pyvenv/$1/venv/bin/activate" ]
 		then
 			source "$HOME"/ENV/pyvenv/"$1"/venv/bin/activate
+			PS1="(venv:$1)$( echo "$PS1" | cut -d')' -f2- )"
+
 		else
 			echo "$1 activate script not present"
 		fi
