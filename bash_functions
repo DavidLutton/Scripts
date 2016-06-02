@@ -12,6 +12,17 @@ function venv {
 
 		else
 			echo "$1 activate script not present"
+			if [ "$2" == "create" ]
+			then
+				echo "Creating $1 venv"
+				mkdir -p "$HOME"/ENV/pyvenv/"$1"/
+				pyvenv "$HOME"/ENV/pyvenv/"$1"/venv
+				venv "$1"
+				if [ -e "$HOME"/ENV/pyvenv/"$1"/requirements.txt ]
+				then
+					pip install --upgrade -r "$HOME"/ENV/pyvenv/"$1"/requirements.txt
+				fi
+			fi
 		fi
 	fi	
 	#python3 "$2" "${@:3}"
