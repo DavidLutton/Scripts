@@ -36,10 +36,8 @@ function venvs {
 
 function imap {
 	imapfilter
-
-	echo offlineimap
+	echo ":::: OfflineIMAP"
 	offlineimap
-
 }
 
 function cleanfire {
