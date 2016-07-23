@@ -1,4 +1,7 @@
 #!/bin/bash
+function avahi-workstations { 
+	avahi-browse -apt | grep Workstation | cut -d';' -f4 | cut -d'\' -f 1 | sort -d  | uniq
+}
 
 function muxer { 
 	ssh "$@" -t "tmux attach || tmux new"
