@@ -20,7 +20,7 @@ def wake_on_lan(macaddress):
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         sock.sendto(send_data, ('255.255.255.255', 7))
 
-        print("Sent WOL to " + macaddress)
+    print("Sent WOL to " + macaddress)
 
 
 def if_sep_remove(len_without, len_with, first_sep, data):
