@@ -1,5 +1,9 @@
 #!/bin/bash
 
+function muxer { 
+	ssh "$@" -t "tmux attach || tmux new"
+}
+
 function venv {
 	if [ -z "$1" ]
 	then
