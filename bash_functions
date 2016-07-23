@@ -1,4 +1,21 @@
 #!/bin/bash
+function avahi-ssh {
+	PS3='Please enter your choice: '
+	# Thanks http://askubuntu.com/a/1716 for the menu example
+	options=( $(avahi-browse -apt | grep Workstation | cut -d';' -f4 | cut -d'\' -f 1 | sort -d  | uniq ) "Quit" )
+	select opt in "${options[@]}"
+	do
+		case "$opt" in
+        		"Quit")
+              			break
+              		;;
+              		*)
+              			ssh "$opt.local" -t "tmux attach || tmux new"
+              		;;
+            	esac
+        done
+}
+
 function avahi-workstations { 
 	avahi-browse -apt | grep Workstation | cut -d';' -f4 | cut -d'\' -f 1 | sort -d  | uniq
 }
