@@ -1,4 +1,14 @@
 #!/bin/bash
+
+function ip-a {
+	ip a  | grep inet | sort -d
+}
+
+function pysrv {
+	ip a  | grep inet | sort -d
+	python3 -m http.server "$@"
+}
+
 function avahi-ssh {
 	PS3='Please enter your choice: '
 	# Thanks http://askubuntu.com/a/1716 for the menu example
