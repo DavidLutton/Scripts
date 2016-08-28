@@ -1,5 +1,9 @@
 #!/bin/bash
 
+function qr {
+	 qrencode -t UTF8 "$@"
+}
+
 function ip-a {
 	ip a  | grep inet | sort -d
 }
